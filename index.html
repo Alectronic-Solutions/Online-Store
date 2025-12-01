@@ -6,6 +6,9 @@
     <meta name="description" content="Premium Minimalist Online Store. High-quality products with a sleek, modern shopping experience.">
     <meta name="theme-color" content="#ffffff">
     
+    <!-- Favicon -->
+    <link rel="icon" href="portfolio-10.jpg" type="image/jpeg">
+
     <!-- Open Graph Tags -->
     <meta property="og:title" content="Online Store - Premium Tech & Accessories">
     <meta property="og:description" content="Shop the latest premium collection.">
@@ -151,6 +154,12 @@
             color: var(--bg-body);
         }
 
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            min-height: 36px;
+        }
+
         .section-padding { padding: 6rem 0; }
         .section-title { font-size: 2.5rem; margin-bottom: 0.5rem; }
         .section-subtitle {
@@ -185,15 +194,37 @@
         }
 
         .logo {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-main);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .logo span { color: var(--primary); }
+        .logo-img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            transition: transform 0.3s;
+        }
+        
+        .logo-fallback {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border: 2px solid var(--border);
+        }
+        
+        .logo:hover .logo-img, .logo:hover .logo-fallback {
+            transform: rotate(5deg);
+            border-color: var(--primary);
+        }
 
         .nav-links { display: flex; gap: 2.5rem; }
 
@@ -236,6 +267,36 @@
         }
 
         .icon-btn:hover { color: var(--primary); }
+
+        /* --- Search Bar --- */
+        .search-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-card);
+            z-index: 1005;
+            display: flex;
+            align-items: center;
+            transform: translateY(-100%);
+            transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-bar.active { transform: translateY(0); }
+
+        .search-input-field {
+            flex: 1;
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            outline: none;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .search-input-field::placeholder { color: var(--text-muted); opacity: 0.7; }
 
         .cart-count {
             position: absolute;
@@ -738,6 +799,69 @@
             visibility: visible;
         }
 
+        /* --- Generic Info Modal (New) --- */
+        .info-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            z-index: 1100;
+            max-width: 90%;
+            width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid var(--border);
+        }
+
+        .info-modal.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .modal-close-btn {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: 0.3s;
+        }
+        .modal-close-btn:hover { color: var(--primary); }
+
+        /* Job Listing Style */
+        .job-item {
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background: var(--bg-body);
+        }
+        
+        /* FAQ Style */
+        .faq-item {
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+        .faq-question { font-weight: 600; margin-bottom: 0.5rem; display: block; }
+        .faq-answer { color: var(--text-muted); font-size: 0.9rem; }
+
+
         /* --- Checkout Modal (Simulation) --- */
         .checkout-modal {
             position: fixed;
@@ -841,7 +965,6 @@
             .theme-toggle { bottom: 20px; left: 20px; width: 44px; height: 44px; }
             .back-to-top { bottom: 20px; right: 20px; width: 44px; height: 44px; }
             
-            .logo { font-size: 1.3rem; }
             .nav-icons { gap: 0.8rem; }
         }
         
@@ -858,7 +981,10 @@
     <header class="header">
         <div class="container">
             <nav class="nav">
-                <a href="#" class="logo">ONLINE<span>STORE</span></a>
+                <a href="#" class="logo">
+                    <img src="portfolio-10.jpg" alt="Online Store Logo" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="logo-fallback"><i class="ri-shopping-bag-3-fill"></i></div>
+                </a>
 
                 <ul class="nav-links" id="nav-links">
                     <li><a href="#hero" class="nav-link active">Home</a></li>
@@ -869,7 +995,7 @@
 
                 <div style="display: flex; align-items: center; margin-left: auto;">
                     <div class="nav-icons">
-                        <button class="icon-btn" aria-label="Search"><i class="ri-search-line"></i></button>
+                        <button class="icon-btn" id="search-btn" aria-label="Search"><i class="ri-search-line"></i></button>
                         <button class="icon-btn" id="cart-toggle" aria-label="Cart">
                             <i class="ri-shopping-bag-3-line"></i>
                             <span class="cart-count">0</span>
@@ -883,6 +1009,14 @@
                     </div>
                 </div>
             </nav>
+        </div>
+        <!-- Search Bar Overlay -->
+        <div class="search-bar" id="search-bar">
+            <div class="container" style="display: flex; align-items: center; gap: 1rem;">
+                <i class="ri-search-line" style="color: var(--text-muted); font-size: 1.2rem;"></i>
+                <input type="text" id="search-input" class="search-input-field" placeholder="Search products...">
+                <button class="icon-btn" id="search-close" style="font-size: 1.5rem;"><i class="ri-close-line"></i></button>
+            </div>
         </div>
     </header>
 
@@ -922,6 +1056,127 @@
             <h3>Order Confirmed!</h3>
             <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Thank you for your purchase. Your order <strong>#89203</strong> is on its way.</p>
             <button class="btn btn-primary" onclick="window.location.reload()">Continue Shopping</button>
+        </div>
+    </div>
+
+    <!-- OUR STORY MODAL -->
+    <div class="info-modal" id="story-modal">
+        <div class="modal-header">
+            <h3>Our Story</h3>
+            <i class="ri-close-line modal-close-btn" data-close="story-modal"></i>
+        </div>
+        <div class="modal-content">
+            <p style="color: var(--text-muted);">Founded in 2020, we started with a simple mission: to eliminate the clutter from your workspace.</p>
+            <p style="color: var(--text-muted);">What began as a small design studio in a garage has grown into a global brand trusted by creative professionals in over 50 countries. We believe that the objects you interact with every day should be beautiful, functional, and built to last.</p>
+            <h4 style="margin-top: 1.5rem;">Milestones</h4>
+            <ul style="list-style: disc; padding-left: 1.5rem; color: var(--text-muted);">
+                <li style="margin-bottom: 0.5rem;"><strong>2020:</strong> Launch of our first mechanical keyboard.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>2022:</strong> Expanded to audio and ergonomics.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>2024:</strong> Opened our first flagship store in Tokyo.</li>
+                <li><strong>2025:</strong> Launching the "Spring Collection" featuring sustainable materials.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- CAREERS MODAL -->
+    <div class="info-modal" id="careers-modal">
+        <div class="modal-header">
+            <h3>Careers</h3>
+            <i class="ri-close-line modal-close-btn" data-close="careers-modal"></i>
+        </div>
+        <div class="modal-content">
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">We are always looking for passionate individuals to join our team. If you love minimalism and tech, you belong here.</p>
+            
+            <div class="job-item">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                    <h4>Senior Frontend Developer</h4>
+                    <span style="font-size:0.8rem; color: var(--primary); background: rgba(98, 0, 234, 0.1); padding: 0.2rem 0.5rem; border-radius: 4px;">Remote</span>
+                </div>
+                <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:1rem;">Lead the development of our e-commerce platform using modern web technologies.</p>
+                <button class="btn btn-outline btn-sm apply-now-btn">Apply Now</button>
+            </div>
+
+            <div class="job-item">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                    <h4>Product Designer</h4>
+                    <span style="font-size:0.8rem; color: var(--primary); background: rgba(98, 0, 234, 0.1); padding: 0.2rem 0.5rem; border-radius: 4px;">London, UK</span>
+                </div>
+                <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:1rem;">Shape the physical and digital experience of our next-gen products.</p>
+                <button class="btn btn-outline btn-sm apply-now-btn">Apply Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION RECEIVED MODAL -->
+    <div class="info-modal" id="application-success-modal" style="text-align: center;">
+        <div style="padding: 2rem 0;">
+            <i class="ri-checkbox-circle-fill success-icon" style="display: block; margin-bottom: 1rem;"></i>
+            <h3>Application Received!</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Thanks for applying. We will review your details and let you know soon.</p>
+            <button class="btn btn-primary modal-close-btn">Close</button>
+        </div>
+    </div>
+
+    <!-- SUPPORT MODAL -->
+    <div class="info-modal" id="support-modal">
+        <div class="modal-header">
+            <h3>Support Center</h3>
+            <i class="ri-close-line modal-close-btn" data-close="support-modal"></i>
+        </div>
+        <div class="modal-content">
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Find answers to common questions or reach out to our team directly.</p>
+            
+            <div class="faq-item">
+                <span class="faq-question">What is your return policy?</span>
+                <p class="faq-answer">We offer a 30-day no-questions-asked return policy on all hardware items. Products must be in original packaging.</p>
+            </div>
+            
+            <div class="faq-item">
+                <span class="faq-question">Do you ship internationally?</span>
+                <p class="faq-answer">Yes, we ship to over 50 countries worldwide including USA, Canada, UK, and most of EU.</p>
+            </div>
+            
+            <div class="faq-item">
+                <span class="faq-question">How do I track my order?</span>
+                <p class="faq-answer">Once your order ships, you will receive an email with a tracking link. You can also view status in your account.</p>
+            </div>
+
+            <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; margin-top: 1.5rem; text-align: center;">
+                <p style="margin-bottom: 0.5rem; font-weight: 600;">Still need help?</p>
+                <a href="mailto:support@onlinestore.com" style="color: var(--primary);">support@onlinestore.com</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMS MODAL -->
+    <div class="info-modal" id="terms-modal">
+        <div class="modal-header">
+            <h3>Terms of Service</h3>
+            <i class="ri-close-line modal-close-btn" data-close="terms-modal"></i>
+        </div>
+        <div class="modal-content">
+            <p style="color: var(--text-muted);">Last Updated: January 15, 2025</p>
+            <h4 style="margin-top: 1rem;">1. Acceptance of Terms</h4>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement.</p>
+            <h4 style="margin-top: 1rem;">2. Use License</h4>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Permission is granted to temporarily download one copy of the materials (information or software) on Online Store's website for personal, non-commercial transitory viewing only.</p>
+            <h4 style="margin-top: 1rem;">3. Disclaimer</h4>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">The materials on Online Store's website are provided on an 'as is' basis. Online Store makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability.</p>
+        </div>
+    </div>
+
+    <!-- PRIVACY MODAL -->
+    <div class="info-modal" id="privacy-modal">
+        <div class="modal-header">
+            <h3>Privacy Policy</h3>
+            <i class="ri-close-line modal-close-btn" data-close="privacy-modal"></i>
+        </div>
+        <div class="modal-content">
+            <p style="color: var(--text-muted);">Your privacy is important to us. It is Online Store's policy to respect your privacy regarding any information we may collect from you across our website.</p>
+            <h4 style="margin-top: 1rem;">Information We Collect</h4>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent.</p>
+            <h4 style="margin-top: 1rem;">Data Retention</h4>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">We only retain collected information for as long as necessary to provide you with your requested service. What data we store, we’ll protect within commercially acceptable means to prevent loss and theft.</p>
         </div>
     </div>
 
@@ -1113,7 +1368,6 @@
                     </div>
                 </article>
 
-                <!-- Updated Laptop Stand with Image -->
                 <article class="product-card hidden-product" data-id="9" data-name="Laptop Stand" data-price="45.00" data-img="https://images.unsplash.com/photo-1616353071855-2c045c4458ae?auto=format&fit=crop&w=600&q=80">
                     <div class="product-image-container">
                         <img src="https://images.unsplash.com/photo-1616353071855-2c045c4458ae?auto=format&fit=crop&w=600&q=80" alt="Stand" class="product-image">
@@ -1225,23 +1479,26 @@
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <a href="#" class="logo" style="color: white;">ONLINE<span>STORE</span></a>
+                    <a href="#" class="logo">
+                        <img src="portfolio-10.jpg" alt="Online Store Logo" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="logo-fallback"><i class="ri-shopping-bag-3-fill"></i></div>
+                    </a>
                     <p style="margin-top: 1rem;">Redefining the modern workspace with minimalist aesthetics and maximum performance.</p>
                 </div>
                 <div>
                     <h4>Shop</h4>
                     <ul style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.8rem;">
-                        <li><a href="#">New Arrivals</a></li>
-                        <li><a href="#">Best Sellers</a></li>
-                        <li><a href="#">Accessories</a></li>
+                        <li><a href="#products" class="scroll-link">New Arrivals</a></li>
+                        <li><a href="#products" class="scroll-link">Best Sellers</a></li>
+                        <li><a href="#products" class="scroll-link">Accessories</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4>Company</h4>
                     <ul style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.8rem;">
-                        <li><a href="#">Our Story</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#contact">Support</a></li>
+                        <li><a href="#" class="modal-trigger" data-modal="story-modal">Our Story</a></li>
+                        <li><a href="#" class="modal-trigger" data-modal="careers-modal">Careers</a></li>
+                        <li><a href="#" class="modal-trigger" data-modal="support-modal">Support</a></li>
                     </ul>
                 </div>
                 <div>
@@ -1255,7 +1512,12 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 <a href="https://alectronic-solutions.github.io/" target="_blank" class="author-link">Alectronic Solutions</a>. All rights reserved.</p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; align-items: center;">
+                    <p>&copy; 2025 <a href="https://alectronic-solutions.github.io/" target="_blank" class="author-link">Alectronic Solutions</a>. All rights reserved.</p>
+                    <span style="display: inline-block; width: 1px; height: 12px; background: #333;"></span>
+                    <a href="#" class="modal-trigger author-link" data-modal="terms-modal">Terms</a>
+                    <a href="#" class="modal-trigger author-link" data-modal="privacy-modal">Privacy</a>
+                </div>
                 <div style="display: flex; gap: 1.5rem;">
                     <a href="#" class="author-link" aria-label="Twitter"><i class="ri-twitter-x-line" style="font-size: 1.2rem;"></i></a>
                     <a href="#" class="author-link" aria-label="Instagram"><i class="ri-instagram-line" style="font-size: 1.2rem;"></i></a>
@@ -1276,6 +1538,91 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
+            // --- Search Logic ---
+            const searchBtn = document.getElementById('search-btn');
+            const searchBar = document.getElementById('search-bar');
+            const searchClose = document.getElementById('search-close');
+            const searchInput = document.getElementById('search-input');
+            
+            searchBtn.addEventListener('click', () => {
+                searchBar.classList.add('active');
+                setTimeout(() => searchInput.focus(), 300);
+            });
+
+            searchClose.addEventListener('click', () => {
+                searchBar.classList.remove('active');
+                searchInput.value = '';
+                filterProducts('');
+            });
+
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                filterProducts(term);
+            });
+
+            function filterProducts(term) {
+                const products = document.querySelectorAll('.product-card');
+                
+                products.forEach(product => {
+                    const name = product.dataset.name.toLowerCase();
+                    
+                    if (name.includes(term)) {
+                        product.style.display = 'flex';
+                        if (product.classList.contains('hidden-product')) {
+                           product.classList.remove('hidden-product');
+                           product.classList.add('fade-in');
+                        }
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            }
+
+            // --- Info Modals Logic ---
+            const modalTriggers = document.querySelectorAll('.modal-trigger');
+            const overlay = document.getElementById('overlay');
+            const modalCloseBtns = document.querySelectorAll('.modal-close-btn');
+
+            modalTriggers.forEach(trigger => {
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const modalId = trigger.getAttribute('data-modal');
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.classList.add('active');
+                        overlay.classList.add('active');
+                    }
+                });
+            });
+
+            modalCloseBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const modal = btn.closest('.info-modal');
+                    modal.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+            });
+
+            // "Apply Now" Button Logic
+            const applyNowBtns = document.querySelectorAll('.apply-now-btn');
+            applyNowBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const careersModal = document.getElementById('careers-modal');
+                    careersModal.classList.remove('active');
+                    
+                    const successModal = document.getElementById('application-success-modal');
+                    successModal.classList.add('active');
+                    overlay.classList.add('active');
+                });
+            });
+
+            // Close generic modals when clicking overlay
+            overlay.addEventListener('click', () => {
+                document.querySelectorAll('.info-modal.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            });
+
             // --- Review Carousel ---
             const reviews = document.querySelectorAll('.review-card');
             let currentReview = 0;
@@ -1382,7 +1729,7 @@
             const cartToggle = document.getElementById('cart-toggle');
             const cartSidebar = document.getElementById('cart-sidebar');
             const cartClose = document.getElementById('cart-close');
-            const overlay = document.getElementById('overlay');
+            // overlay is defined above
             const cartItemsContainer = document.getElementById('cart-items-container');
             const cartTotalEl = document.getElementById('cart-total-price');
             const cartCountEl = document.querySelector('.cart-count');
@@ -1400,7 +1747,7 @@
 
             function closeCart() {
                 cartSidebar.classList.remove('open');
-                if (!checkoutModal.classList.contains('active')) {
+                if (!checkoutModal.classList.contains('active') && !document.querySelector('.info-modal.active')) {
                     overlay.classList.remove('active');
                 }
             }
@@ -1411,6 +1758,7 @@
             overlay.addEventListener('click', () => {
                 closeCart();
                 checkoutModal.classList.remove('active');
+                // info modal close is handled in generic listener above
             });
 
             // Add to Cart
